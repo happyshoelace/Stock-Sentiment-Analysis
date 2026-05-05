@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+veth/
+.venv/
+env/
+.env
+
+# Data and Models
+saved_sentiment_model/
+results/
+*.csv
+*.JSON
+*.json
+!stockMentions.json # Keeping this if it's small/important, but it's 6MB. 
+# Actually, let's just ignore all data for now and let the user decide if they want to override.
+# I'll exclude stockMentions.json too as it's large-ish for a code repo.
+
+*.log

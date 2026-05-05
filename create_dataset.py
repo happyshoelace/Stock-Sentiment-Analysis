@@ -11,16 +11,12 @@ def main():
         stock_mentions = json.load(f)
     
     # Flatten the dictionary into a list of (ticker, text)
-    # We use a global set to ensure every comment is only labeled ONCE
-    unique_comments = {}
+    data = []
     for ticker, comments in stock_mentions.items():
         for comment in comments:
-            if comment not in unique_comments:
-                unique_comments[comment] = ticker
+            data.append({"ticker": ticker, "text": comment})
     
-    data = [{"ticker": ticker, "text": text} for text, ticker in unique_comments.items()]
-    
-    print(f"Total unique comments found across all tickers: {len(data)}")
+    print(f"Total mentions found across all tickers: {len(data)}")
     
     # Initialize the zero-shot classification or sentiment analysis pipeline
     # ProsusAI/finbert is specifically fine-tuned for financial sentiment
@@ -29,24 +25,29 @@ def main():
     sentiment_pipeline = pipeline("sentiment-analysis", model="ProsusAI/finbert", device=device)
     
     labeled_data = []
+    label_cache = {}  # Cache to avoid labeling the same text multiple times
     
     print("Auto-labeling data...")
-    # NOTE: To run a quick test, you can add `data = data[:200]` here
     for item in tqdm(data, desc="Labeling"):
         text = item["text"]
-        try:
-            # Let the pipeline handle truncation properly up to the max 512 tokens
-            result = sentiment_pipeline(text, truncation=True, max_length=512)[0]
-            label = result['label']
-            # FinBERT-tone labels are: Positive, Negative, Neutral
-            labeled_data.append({
-                "ticker": item["ticker"],
-                "text": text,
-                "label": label
-            })
-        except Exception as e:
-            print(f"Error processing text: {e}")
-            continue
+        
+        if text in label_cache:
+            label = label_cache[text]
+        else:
+            try:
+                # Let the pipeline handle truncation properly up to the max 512 tokens
+                result = sentiment_pipeline(text, truncation=True, max_length=512)[0]
+                label = result['label']
+                label_cache[text] = label
+            except Exception as e:
+                print(f"Error processing text: {e}")
+                continue
+                
+        labeled_data.append({
+            "ticker": item["ticker"],
+            "text": text,
+            "label": label
+        })
 
     # Convert to CSV and split
     print("Splitting and saving dataset...")

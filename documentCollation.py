@@ -15,16 +15,14 @@ def _tokenize(value):
 
 
 def _security_name_is_close_match(text, security_name):
-    text_tokens = _tokenize(text)
-    name_tokens = [
-        token for token in _tokenize(security_name)
-        if token not in SECURITY_NAME_STOPWORDS and len(token) >= 3
-    ]
+    if security_name.lower() in SECURITY_NAME_STOPWORDS:
+        for stopword in SECURITY_NAME_STOPWORDS:
+            security_name = security_name.lower().replace(stopword, "")
 
-    if not text_tokens or not name_tokens:
-        return False
+    if security_name.strip() in text.lower():
+        return True
 
-    return bool(set(text_tokens).intersection(name_tokens))
+    return False
 
 def findStockMentions(text, stockAbbreviationList, tracker):
     for stock, security_name in stockAbbreviationList.items():
@@ -59,6 +57,8 @@ stockMentions = {}
 
 for comment in cacheDict[0]["comments"]:
         stockMentions = findStockMentions(comment["body"], stockDefinitions, stockMentions)
+        for reply in comment.get("replies", []):
+            stockMentions = findStockMentions(reply["body"], stockDefinitions, stockMentions)
 
 
 pp.pprint(stockMentions)
@@ -68,3 +68,21 @@ output_path = Path("stockMentions.json")
 
 with output_path.open("w", encoding="utf-8") as f:
     json.dump(stockMentions, f, ensure_ascii=False, indent=2)
+
+def check(stock, mentions):
+    print(f"Stock: {stock}")
+    for mention in mentions:
+        if stock in mention or _security_name_is_close_match(mention, stockDefinitions[stock]):
+            print(f"---\n {mention.replace(stock, f'**{stock}**')}\n---")
+
+  
+
+# with open('stockMentions.json', "r", encoding="utf-8") as f:
+#     data = json.load(f)
+
+# for stock, mentions in data.items():
+#     check(stock, mentions)
+
+
+
+

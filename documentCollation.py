@@ -40,6 +40,7 @@ def findStockMentions(text, stockAbbreviationList, tracker):
             else:
                 tracker[stock].append(text)
     return tracker
+
     
 stockDefinitions = {}
 

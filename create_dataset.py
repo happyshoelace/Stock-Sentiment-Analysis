@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 def main():
     print("Loading stock mentions...")
-    with open('stockMentions.json', 'r', encoding='utf-8') as f:
+    with open('stockMentionsTWITTER.json', 'r', encoding='utf-8') as f:
         stock_mentions = json.load(f)
     
     # Flatten the dictionary into a list of (ticker, text)

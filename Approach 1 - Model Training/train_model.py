@@ -19,8 +19,8 @@ def compute_metrics(pred):
 
 def main():
     print("Loading datasets...")
-    train_df = pd.read_csv('train_dataset.csv')
-    val_df = pd.read_csv('val_dataset.csv')
+    train_df = pd.read_csv('Twitter Dataset\\train_dataset.csv')
+    val_df = pd.read_csv('Twitter Dataset\\val_dataset.csv')
     
     # Map labels to integers
     # Clean labels to ensure matching (strip spaces and lowercase)

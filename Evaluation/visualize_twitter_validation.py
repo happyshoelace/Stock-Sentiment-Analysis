@@ -8,9 +8,9 @@ from tqdm import tqdm
 import os
 
 def main():
-    val_file = 'val_dataset.csv'
-    model_path = "./saved_sentiment_model"
-    output_dir = "./results/plots_twitter"
+    val_file = 'Twitter Dataset\val_dataset.csv'
+    model_path = "Approach 1 - Model Training/saved_sentiment_model"
+    output_dir = "Analysis Results/plots_twitter"
     os.makedirs(output_dir, exist_ok=True)
 
     if not os.path.exists(val_file):

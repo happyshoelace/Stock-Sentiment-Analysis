@@ -5,8 +5,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from tqdm import tqdm
 
 def main():
-    json_file = 'stockMentions.json'
-    model_path = "./saved_sentiment_model"
+    json_file = 'Twitter Dataset\stockMentionsTWITTER.json'
+    model_path = "Approach 1 - Model Training/saved_sentiment_model"
     
     if not os.path.exists(json_file):
         print(f"Error: {json_file} not found.")

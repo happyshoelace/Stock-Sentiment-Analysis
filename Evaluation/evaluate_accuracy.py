@@ -8,7 +8,7 @@ import os
 
 def main():
     # 1. Load data
-    json_file = 'stockMentions.json'
+    json_file = 'Twitter Dataset\stockMentionsTWITTER.json'
     if not os.path.exists(json_file):
         print(f"Error: {json_file} not found.")
         return

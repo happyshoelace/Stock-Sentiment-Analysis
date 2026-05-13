@@ -10,9 +10,9 @@ import os
 
 def main():
     # 1. Setup
-    json_file = 'stockMentions.json'
-    model_path = "./saved_sentiment_model"
-    output_dir = "./results/plots"
+    json_file = 'Twitter Dataset\stockMentionsTWITTER.json'
+    model_path = "Approach 1 - Model Training/saved_sentiment_model"
+    output_dir = "Analysis Results/plots"
     os.makedirs(output_dir, exist_ok=True)
 
     if not os.path.exists(json_file) or not os.path.exists(model_path):

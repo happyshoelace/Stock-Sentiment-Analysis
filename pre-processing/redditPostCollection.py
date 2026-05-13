@@ -104,8 +104,8 @@ for post in posts:  # first 5 posts
 # Append collected posts/comments to existing cache JSON (if present)
 try:
     existing_posts = []
-    if os.path.exists('postCache.JSON'):
-        with open('postCache.JSON', 'r', encoding='utf-8') as f:
+    if os.path.exists('redditDataset\postCache.JSON'):
+        with open('redditDataset\postCache.JSON', 'r', encoding='utf-8') as f:
             try:
                 existing_posts = json.load(f)
                 if not isinstance(existing_posts, list):
@@ -115,7 +115,7 @@ try:
 
     combined_posts = existing_posts + posts_cache
 
-    with open('postCache.JSON', 'w', encoding='utf-8') as f:
+    with open('redditDataset\postCache.JSON', 'w', encoding='utf-8') as f:
         json.dump(combined_posts, f, ensure_ascii=False, indent=2)
     print(
         f"Saved {len(posts_cache)} new posts. "

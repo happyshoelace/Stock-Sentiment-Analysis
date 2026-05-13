@@ -44,12 +44,12 @@ def findStockMentions(text, stockAbbreviationList, tracker):
     
 stockDefinitions = {}
 
-with open('stockabbreviations.csv') as  f:
+with open('Miscellaneous\stockabbreviations.csv') as  f:
     reader = csv.DictReader(f, delimiter="|")
     for data in reader:
         stockDefinitions[data["Symbol"]] = data["Security Name"]
 
-with open('postCache.JSON', "r", encoding="utf-8") as cache:
+with open('redditDataset\postCache.JSON', "r", encoding="utf-8") as cache:
     cacheDict = json.load(cache)
 
 # pp.pprint(cacheDict[0]["comments"][0])
@@ -65,7 +65,7 @@ for comment in cacheDict[0]["comments"]:
 pp.pprint(stockMentions)
 
 
-output_path = Path("stockMentions.json")
+output_path = Path("redditDataset\stockMentionsREDDIT.json")
 
 with output_path.open("w", encoding="utf-8") as f:
     json.dump(stockMentions, f, ensure_ascii=False, indent=2)
